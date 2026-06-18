@@ -1,0 +1,16 @@
+[package]
+name = "healing-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+healing-core = { path = "../healing-core" }
+healing-engine = { path = "../healing-engine" }
+healing-store-surreal = { path = "../healing-store-surreal" }
+healing-scheduler-adapter = { path = "../healing-scheduler-adapter" }
+healing-graph = { path = "../healing-graph" }
+healing-brains = { path = "../healing-brains" }
+healing-mom = { path = "../healing-mom" }
+tokio = { workspace = true }
+axum = { workspace = true }
+tower = { version = "0.5.3", features = ["util"] }
