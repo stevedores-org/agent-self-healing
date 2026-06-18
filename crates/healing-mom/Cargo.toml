@@ -5,3 +5,4 @@ edition = "2021"
 
 [dependencies]
 healing-core = { path = "../healing-core" }
+thiserror = "2.0.18"
