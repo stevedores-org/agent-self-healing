@@ -1,0 +1,55 @@
+# propel.toml — Declarative CI/CD orchestration for agent-self-healing
+
+[project]
+name = "agent-self-healing"
+repo = "stevedores-org/agent-self-healing"
+
+[[check]]
+name        = "fmt"
+description = "Rust code formatting check"
+command     = ["cargo", "fmt", "--all", "--", "--check"]
+timeout     = 120
+check       = true
+
+[[check]]
+name        = "clippy"
+description = "Rust lints check"
+command     = ["cargo", "clippy", "--workspace", "--all-targets", "--", "-D", "warnings"]
+timeout     = 300
+check       = true
+
+[[check]]
+name        = "test"
+description = "Rust workspace test suite"
+command     = ["cargo", "test", "--workspace"]
+timeout     = 600
+check       = true
+
+[[check]]
+name        = "gitleaks"
+description = "gitleaks secret detection"
+command     = ["gitleaks", "detect", "--no-banner", "--redact"]
+timeout     = 120
+check       = true
+
+[[check]]
+name        = "nix-flake-check"
+description = "Nix flake check validation"
+command     = ["nix", "flake", "check", "--accept-flake-config"]
+timeout     = 600
+check       = true
+
+[oci]
+enabled = false
+
+[policy]
+requires_human_approval = false
+secrets_scope = "ci/repos/stevedores-org/agent-self-healing"
+allowed_orgs  = ["lornu-ai", "stevedores-org"]
+allowed_refs  = ["refs/heads/main", "refs/heads/develop"]
+
+[propel]
+enabled = true
+provider = "propel.aivcs.io"
+github_status_checks = true
+github_pr_comments = true

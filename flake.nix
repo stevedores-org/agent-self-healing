@@ -6,9 +6,10 @@
     flake-utils.url = "github:numtide/flake-utils";
     rust-overlay.url = "github:oxalica/rust-overlay";
     crane.url = "github:ipetkov/crane";
+    worry-free-crab.url = "github:lornu-ai/worry-free-crab";
   };
 
-  outputs = { self, nixpkgs, flake-utils, rust-overlay, crane, ... }:
+  outputs = { self, nixpkgs, flake-utils, rust-overlay, crane, worry-free-crab, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [ (import rust-overlay) ];
@@ -19,6 +20,7 @@
         };
         
         craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
+        wfc = worry-free-crab.packages.${system}.default;
 
         src = craneLib.cleanCargoSource ./.;
 
@@ -66,6 +68,11 @@
             rustToolchain
             cargo-nextest
             just
+            wfc
+            gitleaks
+            pkg-config
+            openssl
+            bun
           ];
         };
       }
